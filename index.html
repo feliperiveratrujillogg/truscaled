@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TruScaled</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  /* Layout: single-column editorial scroll — a light hero band, then alternating
+     paper and navy "livery stripe" sections down through pricing to the footer,
+     echoing the two-tone paint on a service truck. */
+  :root{
+    --bg:#f4f6f8;
+    --bg-alt:#eceff2;
+    --panel:#ffffff;
+    --ink:#0d1b2a;
+    --ink-soft:#4a5568;
+    --navy:#0c1b2b;
+    --navy-soft:#16293e;
+    --steel:#9aa7b5;
+    --line:#d9dee3;
+    --accent:#1f7fd1;
+    --accent-ink:#0b3f6b;
+    --accent-soft:#e7f1fb;
+    --display:'Oswald',system-ui,sans-serif;
+    --body:'Work Sans',system-ui,sans-serif;
+    --mono:'Space Mono',ui-monospace,monospace;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0a1420;
+      --bg-alt:#0e1b29;
+      --panel:#0f1e2f;
+      --ink:#eaf0f6;
+      --ink-soft:#a7b4c4;
+      --navy:#060d16;
+      --navy-soft:#0d1c2c;
+      --steel:#5a6b7d;
+      --line:#1d2c3c;
+      --accent:#4fa3ea;
+      --accent-ink:#cfe6fb;
+      --accent-soft:#13293e;
+      color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0a1420;
+    --bg-alt:#0e1b29;
+    --panel:#0f1e2f;
+    --ink:#eaf0f6;
+    --ink-soft:#a7b4c4;
+    --navy:#060d16;
+    --navy-soft:#0d1c2c;
+    --steel:#5a6b7d;
+    --line:#1d2c3c;
+    --accent:#4fa3ea;
+    --accent-ink:#cfe6fb;
+    --accent-soft:#13293e;
+    color-scheme:dark;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--body);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;}
+  .wrap{max-width:1080px;margin:0 auto;padding-inline:24px;}
+
+  h1,h2,h3{
+    font-family:var(--display);
+    text-transform:uppercase;
+    letter-spacing:0.01em;
+    text-wrap:balance;
+    margin:0;
+    line-height:1.08;
+  }
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12.5px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--accent-ink);
+    background:var(--accent-soft);
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:6px 12px;
+    border-radius:999px;
+  }
+  .stripe{
+    width:44px;height:4px;background:var(--accent);border-radius:2px;
+  }
+
+  /* ---------- header ---------- */
+  header{
+    padding-block:18px;
+    border-bottom:1px solid var(--line);
+  }
+  header .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+  .brand{display:flex;align-items:center;gap:12px;min-width:0;}
+  .brand img{height:44px;width:44px;border-radius:10px;object-fit:cover;flex:none;}
+  .brand-name{font-family:var(--display);font-size:19px;letter-spacing:0.04em;text-transform:uppercase;}
+  .brand-tag{font-family:var(--mono);font-size:11px;color:var(--ink-soft);letter-spacing:0.06em;}
+  .btn{
+    font-family:var(--body);
+    font-weight:600;
+    font-size:14.5px;
+    padding:12px 22px;
+    border-radius:8px;
+    border:1px solid transparent;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    cursor:pointer;
+    text-decoration:none;
+    white-space:nowrap;
+  }
+  .btn-primary{background:var(--accent);color:#ffffff;}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line);}
+  header .btn{padding:10px 18px;font-size:14px;}
+
+  /* ---------- hero ---------- */
+  .hero{padding-block:64px 56px;}
+  .hero .wrap{display:grid;grid-template-columns:1.15fr 0.85fr;gap:48px;align-items:center;}
+  .hero h1{font-size:clamp(34px,5vw,54px);margin-block:18px 20px;}
+  .hero h1 em{font-style:normal;color:var(--accent);}
+  .hero p.lead{font-size:18px;color:var(--ink-soft);max-width:52ch;margin-bottom:28px;}
+  .hero-ctas{display:flex;gap:14px;flex-wrap:wrap;}
+  .hero-side{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:26px;
+  }
+  .hero-side img{border-radius:10px;margin-bottom:18px;width:100%;height:auto;}
+  .hero-side dl{display:grid;grid-template-columns:auto 1fr;gap:8px 14px;font-size:14px;margin:0;}
+  .hero-side dt{font-family:var(--mono);color:var(--ink-soft);}
+  .hero-side dd{margin:0;font-weight:600;}
+
+  /* ---------- section shells ---------- */
+  section{padding-block:64px;}
+  .section-alt{background:var(--bg-alt);}
+  .section-navy{background:var(--navy);color:#eef2f6;}
+  .section-navy .ink-soft{color:#9db0c4;}
+  .kicker{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+  .section-head{max-width:62ch;margin-bottom:40px;}
+  .section-head h2{font-size:clamp(26px,3.4vw,36px);margin-top:6px;}
+  .section-head p{color:var(--ink-soft);font-size:16.5px;margin-top:14px;}
+  .section-navy .section-head p{color:#9db0c4;}
+
+  /* ---------- who-for ---------- */
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  .card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:26px;
+  }
+  .card h3{font-size:18px;text-transform:none;letter-spacing:0;margin-bottom:10px;}
+  .card p{color:var(--ink-soft);font-size:15px;margin:0;}
+  .card .tag{
+    font-family:var(--mono);font-size:11.5px;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--accent-ink);background:var(--accent-soft);padding:4px 10px;border-radius:999px;
+    display:inline-block;margin-bottom:14px;
+  }
+
+  /* ---------- included ---------- */
+  .included{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;}
+  .included ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:18px;}
+  .included li{display:flex;gap:14px;align-items:flex-start;}
+  .check{
+    flex:none;width:26px;height:26px;border-radius:7px;background:var(--accent-soft);
+    color:var(--accent-ink);display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);font-size:13px;margin-top:2px;
+  }
+  .included li h4{font-size:15.5px;margin:0 0 4px;font-weight:600;}
+  .included li p{margin:0;color:var(--ink-soft);font-size:14.5px;}
+  .call-meter{
+    background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:28px;
+  }
+  .call-meter .eyebrow{margin-bottom:16px;}
+  .meter-row{display:flex;justify-content:space-between;align-items:baseline;padding-block:12px;border-bottom:1px dashed var(--line);}
+  .meter-row:last-child{border-bottom:none;}
+  .meter-row .plan{font-weight:600;font-size:15px;}
+  .meter-row .calls{font-family:var(--mono);font-size:14px;color:var(--accent-ink);}
+
+  /* ---------- pricing ---------- */
+  .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  .plan{
+    background:var(--panel);border:1px solid var(--line);border-radius:16px;
+    padding:30px 26px;display:flex;flex-direction:column;gap:18px;position:relative;
+  }
+  .plan.featured{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent);}
+  .plan .badge{
+    position:absolute;top:-13px;left:26px;background:var(--accent);color:#fff;
+    font-family:var(--mono);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;
+    padding:5px 12px;border-radius:999px;
+  }
+  .plan h3{font-size:20px;text-transform:none;letter-spacing:0;}
+  .plan .price{font-family:var(--mono);font-size:38px;font-weight:700;display:flex;align-items:baseline;gap:6px;font-variant-numeric:tabular-nums;}
+  .plan .price span{font-size:14px;font-weight:400;color:var(--ink-soft);font-family:var(--body);}
+  .plan .desc{color:var(--ink-soft);font-size:14.5px;min-height:44px;}
+  .plan ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;flex:1;}
+  .plan li{display:flex;gap:10px;font-size:14.5px;align-items:flex-start;}
+  .plan li .dot{flex:none;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-top:7px;}
+  .plan .btn{justify-content:center;width:100%;}
+
+  /* ---------- founder ---------- */
+  .founder{display:grid;grid-template-columns:0.8fr 1.2fr;gap:44px;align-items:center;}
+  .founder-card{
+    background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px;
+  }
+  .founder-card img{border-radius:10px;margin-bottom:16px;}
+  .founder-card .name{font-family:var(--display);font-size:18px;text-transform:uppercase;}
+  .founder-card .role{font-family:var(--mono);font-size:12px;color:var(--ink-soft);margin-top:4px;}
+  .founder blockquote{
+    font-family:var(--display);
+    font-size:clamp(20px,2.6vw,27px);
+    text-transform:none;
+    letter-spacing:0;
+    line-height:1.35;
+    margin:0 0 20px;
+    color:#eef2f6;
+  }
+  .founder p.byline{font-family:var(--mono);font-size:13px;color:#9db0c4;}
+
+  /* ---------- final cta ---------- */
+  .final{
+    background:var(--accent);
+    color:#06253f;
+    border-radius:20px;
+    padding:48px 40px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:32px;
+    flex-wrap:wrap;
+  }
+  .final h2{color:#06253f;font-size:clamp(24px,3vw,32px);}
+  .final p{color:#0b3f6b;margin-top:10px;max-width:48ch;}
+  .final .btn-primary{background:#06253f;color:#fff;}
+
+  /* ---------- footer ---------- */
+  footer{padding-block:40px;border-top:1px solid var(--line);}
+  footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;}
+  footer .brand img{height:34px;width:34px;}
+  footer .fine{font-size:13px;color:var(--ink-soft);}
+
+  @media (max-width:860px){
+    .hero .wrap{grid-template-columns:1fr;}
+    .grid-3{grid-template-columns:1fr;}
+    .included{grid-template-columns:1fr;}
+    .pricing-grid{grid-template-columns:1fr;}
+    .founder{grid-template-columns:1fr;}
+    .final{flex-direction:column;align-items:flex-start;text-align:left;}
+  }
+</style>
+</head>
+<body>
+
+
+<header>
+  <div class="wrap">
+    <div class="brand">
+      <img src="truscaled-logo.jpg" alt="Trujillo's logo">
+      <div>
+        <div class="brand-name">TruScaled</div>
+        <div class="brand-tag">Coaching for wash &amp; clean operators</div>
+      </div>
+    </div>
+    <a class="btn btn-primary" href="https://whop.com/discord-9c2a/truscaled-1-1-coaching/">Join TruScaled</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">1:1 coaching · pressure washing &amp; cleaning owners</span>
+      <h1>Run your wash business like it's already a real company.<br><em>Not a one-truck hustle.</em></h1>
+      <p class="lead">I took Trujillo's Cleaning Services from me and a machine in a truck bed to a company with routes, crews, and recurring revenue &mdash; in Savannah, one of the most competitive wash markets in the Southeast. TruScaled is that same playbook, taught 1:1.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="https://whop.com/discord-9c2a/truscaled-1-1-coaching/">See coaching plans →</a>
+        <a class="btn btn-ghost" href="#included">What's included</a>
+      </div>
+    </div>
+    <div class="hero-side">
+      <img src="truscaled-logo.jpg" alt="Trujillo's Home and Auto Cleaning logo">
+      <dl>
+        <dt>Built on</dt><dd>Trujillo's Cleaning Services, Savannah GA</dd>
+        <dt>Format</dt><dd>Live 1:1 calls + private Discord</dd>
+        <dt>Coach</dt><dd>Abraham Trujillo</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="section-alt">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Who this is for</span>
+      <h2>You're good at the work. The business part is the problem.</h2>
+    </div>
+    <div class="grid-3">
+      <div class="card">
+        <span class="tag">Solo operator</span>
+        <h3>You're still on every job</h3>
+        <p>Quoting, spraying, invoicing, and answering the phone &mdash; all you. The business can't grow past what your own two hands can wash in a week.</p>
+      </div>
+      <div class="card">
+        <span class="tag">First hire, no system</span>
+        <h3>You hired help and it got messier</h3>
+        <p>A crew without routes, pricing rules, or quality checks just multiplies your problems. You need the structure before the headcount.</p>
+      </div>
+      <div class="card">
+        <span class="tag">Stuck on one-time jobs</span>
+        <h3>Every month starts back at zero</h3>
+        <p>No recurring accounts, no route density, no way to predict next month's revenue &mdash; just chasing the next one-off driveway or fleet job.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="included">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">What's included</span>
+      <h2>Direct access to the person who ran the trucks.</h2>
+      <p>Every tier gets the same access &mdash; a private Discord with the coaching vault and 1:1 session channels &mdash; the only difference is how many live calls we do together each month.</p>
+    </div>
+    <div class="included">
+      <ul>
+        <li>
+          <span class="check">01</span>
+          <div>
+            <h4>Live 1:1 calls with Abraham</h4>
+            <p>Route planning, pricing your jobs, hiring and training a crew, and the exact software stack Trujillo's runs on &mdash; call count scales with your plan.</p>
+          </div>
+        </li>
+        <li>
+          <span class="check">02</span>
+          <div>
+            <h4>Private TruScaled Discord</h4>
+            <p>Coaching content drops, resources, and a members channel &mdash; separate from the public server, gated to paying clients only.</p>
+          </div>
+        </li>
+        <li>
+          <span class="check">03</span>
+          <div>
+            <h4>1:1 session channels</h4>
+            <p>A dedicated space in Discord for async follow-up between calls &mdash; send a quote you're unsure about, a photo from the job site, or a quick question.</p>
+          </div>
+        </li>
+      </ul>
+      <div class="call-meter">
+        <span class="eyebrow">Monthly call allowance</span>
+        <div class="meter-row"><span class="plan">Foundations</span><span class="calls">1 call / mo</span></div>
+        <div class="meter-row"><span class="plan">Momentum</span><span class="calls">2 calls / mo</span></div>
+        <div class="meter-row"><span class="plan">Scale</span><span class="calls">4 calls / mo</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-alt" id="pricing">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Pricing</span>
+      <h2>Pick your call cadence. Cancel anytime.</h2>
+      <p>All plans are billed monthly and include full Discord access. Higher tiers just mean more time with me each month.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="plan">
+        <h3>Foundations</h3>
+        <div class="price">$300<span>/ month</span></div>
+        <p class="desc">Get the baseline systems in place and a monthly check-in to keep you accountable.</p>
+        <ul>
+          <li><span class="dot"></span>1 live 1:1 call / month</li>
+          <li><span class="dot"></span>Private Discord + coaching vault</li>
+          <li><span class="dot"></span>1:1 session channel access</li>
+        </ul>
+        <a class="btn btn-ghost" href="https://whop.com/discord-9c2a/truscaled-1-1-coaching/">Join Foundations</a>
+      </div>
+      <div class="plan featured">
+        <span class="badge">Most common</span>
+        <h3>Momentum</h3>
+        <div class="price">$600<span>/ month</span></div>
+        <p class="desc">Enough time together to actually rebuild your pricing, routes, and hiring in real time.</p>
+        <ul>
+          <li><span class="dot"></span>2 live 1:1 calls / month</li>
+          <li><span class="dot"></span>Private Discord + coaching vault</li>
+          <li><span class="dot"></span>1:1 session channel access</li>
+        </ul>
+        <a class="btn btn-primary" href="https://whop.com/discord-9c2a/truscaled-1-1-coaching/">Join Momentum</a>
+      </div>
+      <div class="plan">
+        <h3>Scale</h3>
+        <div class="price">$1,000<span>/ month</span></div>
+        <p class="desc">Weekly access for owners ready to hire crews and grow past what one truck can do.</p>
+        <ul>
+          <li><span class="dot"></span>4 live 1:1 calls / month</li>
+          <li><span class="dot"></span>Private Discord + coaching vault</li>
+          <li><span class="dot"></span>1:1 session channel access</li>
+        </ul>
+        <a class="btn btn-ghost" href="https://whop.com/discord-9c2a/truscaled-1-1-coaching/">Join Scale</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-navy">
+  <div class="wrap founder">
+    <div class="founder-card">
+      <img src="truscaled-logo.jpg" alt="Trujillo's Home and Auto Cleaning logo">
+      <div class="name">Abraham Trujillo</div>
+      <div class="role">Owner &amp; Coach, Trujillo's Cleaning Services &amp; TruScaled</div>
+    </div>
+    <div>
+      <blockquote>&ldquo;I'm not teaching this from a course I bought. I'm teaching the routes, the crew structure, and the pricing I actually run every week in Savannah.&rdquo;</blockquote>
+      <p class="byline">Trujillo's Home &amp; Auto Cleaning &mdash; Savannah, GA</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="final">
+      <div>
+        <h2>Ready to stop being the bottleneck?</h2>
+        <p>Pick a plan, connect Discord, and get on the calendar for your first call.</p>
+      </div>
+      <a class="btn btn-primary" href="https://whop.com/discord-9c2a/truscaled-1-1-coaching/">Join TruScaled →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="brand">
+      <img src="truscaled-logo.jpg" alt="Trujillo's logo">
+      <div>
+        <div class="brand-name">TruScaled</div>
+        <div class="brand-tag">Trujillo's Home &amp; Auto Cleaning</div>
+      </div>
+    </div>
+    <span class="fine">Savannah, GA &middot; Powered by real routes, not theory.</span>
+  </div>
+</footer>
+
+</body>
+</html>
